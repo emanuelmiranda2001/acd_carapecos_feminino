@@ -99,8 +99,8 @@
   .geq-tab.active{ background:var(--card); color:var(--blue-dark); }
   .geq-panel{ display:none; background:var(--card); padding:1.25rem; border:3px solid var(--navy); border-top:none; border-radius:0 0 14px 14px; }
   .geq-panel.active{ display:block; }
-  .geq-section-title{ font-size:13px; color:var(--blue-dark); margin-bottom:.9rem; display:flex; align-items:center; gap:.5rem; }
-  .geq-section-title::before{ content:""; width:8px; height:8px; background:var(--gold); border-radius:50%; display:inline-block; }
+  .geq-section-title{ font-size:13px; color:var(--blue-dark); margin-bottom:1.1rem; display:flex; align-items:center; gap:.6rem; font-weight:700; }
+  .geq-section-title::before{ content:""; width:10px; height:10px; background:linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%); border-radius:50%; display:inline-block; box-shadow:0 2px 4px rgba(240,191,44,0.3); }
   form.geq-form{
     display:grid;
     grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
@@ -112,12 +112,13 @@
     border-radius:0;
   }
   form.geq-form label{
-    font-size:11px;
+    font-size:10.5px;
     text-transform:uppercase;
-    letter-spacing:0.03em;
-    color:var(--text-2);
+    letter-spacing:0.04em;
+    color:var(--gold-dark);
     display:block;
-    margin-bottom:.3rem;
+    margin-bottom:.4rem;
+    font-weight:700;
   }
   form.geq-form input, form.geq-form select, form.geq-form textarea{
     width:100%;
@@ -153,30 +154,37 @@
   .geq-form-full{ grid-column:1/-1; }
   .geq-form-actions{ grid-column:1/-1; display:flex; gap:.6rem; align-items:center; flex-wrap:wrap; }
   .geq-btn{
-    background:var(--blue-dark);
+    background:linear-gradient(135deg, var(--blue-dark) 0%, #0a1f4d 100%);
     color:#fff;
     border:none;
-    padding:.65rem 1.1rem;
-    border-radius:7px;
+    padding:.7rem 1.3rem;
+    border-radius:8px;
     font-family:'Oswald',sans-serif;
     font-size:12.5px;
     letter-spacing:0.03em;
     text-transform:uppercase;
     cursor:pointer;
     white-space:nowrap;
+    font-weight:600;
+    box-shadow:0 2px 6px rgba(15,39,96,0.25);
+    transition:all 0.2s ease;
   }
+  .geq-btn:hover{ transform:translateY(-1px); box-shadow:0 4px 12px rgba(15,39,96,0.35); }
   .geq-btn:active{ transform:scale(0.98); }
-  .geq-btn.gold{ background:var(--gold); color:var(--gold-dark); }
+  .geq-btn.gold{ background:linear-gradient(135deg, var(--gold) 0%, #e6a81f 100%); color:var(--gold-dark); box-shadow:0 2px 6px rgba(240,191,44,0.25); }
+  .geq-btn.gold:hover{ box-shadow:0 4px 12px rgba(240,191,44,0.35); }
   .geq-btn.ghost{ background:transparent; color:var(--text-2); border:1px solid var(--line); }
   .geq-edit-banner{
     grid-column:1/-1;
-    background:#FDF3D8;
-    border:1px solid var(--gold);
+    background:linear-gradient(135deg, var(--gold-bg) 0%, #fffaf0 100%);
+    border:1.5px solid var(--gold);
     color:var(--gold-dark);
     font-size:12.5px;
-    padding:.5rem .7rem;
-    border-radius:7px;
+    padding:.7rem .9rem;
+    border-radius:8px;
     display:none;
+    font-weight:600;
+    box-shadow:0 2px 6px rgba(240,191,44,0.15);
   }
   .geq-edit-banner.show{ display:block; }
 
@@ -184,14 +192,17 @@
   .geq-card{
     background:var(--card);
     border:1px solid var(--line);
-    border-radius:10px;
-    padding:.75rem .9rem;
+    border-radius:12px;
+    padding:1rem;
     border-left:4px solid var(--blue);
+    box-shadow:0 2px 6px rgba(0,0,0,0.06);
+    transition:all 0.25s ease;
   }
+  .geq-card:hover{ box-shadow:0 4px 12px rgba(0,0,0,0.1); border-left-color:var(--gold); }
   .geq-card.is-danger{ border-left-color:var(--gold); }
   .geq-card.is-gold{ border-left-color:var(--gold); }
-  .geq-card-head{ display:flex; justify-content:space-between; align-items:center; gap:.5rem; margin-bottom:.4rem; }
-  .geq-card-head strong{ font-size:14.5px; }
+  .geq-card-head{ display:flex; justify-content:space-between; align-items:center; gap:.5rem; margin-bottom:.6rem; padding-bottom:.6rem; border-bottom:1px solid var(--line); }
+  .geq-card-head strong{ font-size:15px; font-weight:600; color:var(--blue-dark); }
   .geq-card-actions{ display:flex; gap:.4rem; flex-shrink:0; }
   .geq-mini-btn{
     background:none; border:none; cursor:pointer; font-size:12px;
@@ -201,29 +212,34 @@
   .geq-mini-btn.edit:hover{ background:#EAF0FB; }
   .geq-mini-btn.del{ color:var(--blue-deep); }
   .geq-mini-btn.del:hover{ background:var(--gold-bg); }
-  .geq-fields{ display:grid; grid-template-columns:repeat(auto-fit,minmax(110px,1fr)); gap:.35rem .8rem; }
-  .geq-fields .f{ font-size:12.5px; }
-  .geq-fields .f .k{ color:var(--text-2); display:block; font-size:10.5px; text-transform:uppercase; letter-spacing:.02em; }
-  .geq-empty{ color:var(--text-2); font-size:13px; padding:1.2rem 0; text-align:center; }
-  .geq-stats{ display:flex; gap:.6rem; margin:0 0 1.1rem; flex-wrap:wrap; }
-  .geq-stat{ background:var(--bg); border:1px solid var(--line); border-radius:9px; padding:.6rem .8rem; flex:1; min-width:100px; }
-  .geq-stat .label{ font-size:10.5px; color:var(--text-2); text-transform:uppercase; letter-spacing:0.03em; }
-  .geq-stat .value{ font-family:'Oswald',sans-serif; font-size:19px; color:var(--blue-dark); margin-top:2px; }
-  .geq-badge{ padding:.15rem .55rem; border-radius:20px; font-size:11px; font-weight:600; white-space:nowrap; }
-  .badge-v{ background:#E5ECFA; color:var(--blue-dark); }
-  .badge-e{ background:#F0EDE3; color:var(--text-2); }
-  .badge-d{ background:#FDF3D8; color:var(--gold-dark); }
-  .badge-am{ background:#FBF0D6; color:var(--gold-dark); }
-  .badge-verm{ background:var(--blue-deep); color:#fff; }
+  .geq-fields{ display:grid; grid-template-columns:1fr; gap:.5rem .9rem; }
+  .geq-fields .f.full{ grid-column:1/-1; }
+  .geq-fields .f{ font-size:13px; color:var(--text); }
+  .geq-fields .f .k{ color:var(--gold-dark); display:block; font-size:9.5px; text-transform:uppercase; letter-spacing:.05em; font-weight:700; margin-bottom:.2rem; }
+  .geq-empty{ color:var(--text-2); font-size:13.5px; padding:2rem 1rem; text-align:center; background:linear-gradient(135deg, rgba(250,247,240,0.5) 0%, rgba(255,255,255,0.5) 100%); border:1.5px dashed var(--line); border-radius:10px; margin:1rem 0; }
+  .geq-stats{ display:flex; gap:.8rem; margin:0 0 1.5rem; flex-wrap:wrap; }
+  .geq-stat{ background:linear-gradient(135deg, var(--bg) 0%, #fafbfc 100%); border:2px solid var(--line); border-radius:12px; padding:1rem; flex:1; min-width:120px; box-shadow:0 2px 8px rgba(0,0,0,0.08); transition:all 0.3s ease; display:flex; flex-direction:column; align-items:center; text-align:center; }
+  .geq-stat:hover{ border-color:var(--gold); box-shadow:0 4px 12px rgba(240,191,44,0.15); transform:translateY(-2px); }
+  .geq-stat .label{ font-size:10px; color:var(--text-2); text-transform:uppercase; letter-spacing:0.04em; font-weight:600; order:1; }
+  .geq-stat .value{ font-family:'Oswald',sans-serif; font-size:32px; color:var(--blue-dark); margin-top:.6rem; font-weight:700; order:2; }
+  .geq-badge{ padding:.25rem .65rem; border-radius:20px; font-size:10.5px; font-weight:700; white-space:nowrap; box-shadow:0 1px 3px rgba(0,0,0,0.08); }
+  .badge-v{ background:#E5ECFA; color:var(--blue-dark); border:1px solid rgba(27,63,139,0.2); }
+  .badge-e{ background:#F0EDE3; color:var(--text-2); border:1px solid rgba(102,95,82,0.2); }
+  .badge-d{ background:#FDF3D8; color:var(--gold-dark); border:1px solid rgba(240,191,44,0.3); }
+  .badge-am{ background:#FBF0D6; color:var(--gold-dark); border:1px solid rgba(240,191,44,0.25); }
+  .badge-verm{ background:linear-gradient(135deg, var(--blue-deep) 0%, #051a32 100%); color:#fff; border:1px solid rgba(0,0,0,0.2); }
   .geq-toast{
     position:sticky; top:0; z-index:10;
     background:#FDF3D8; color:var(--gold-dark);
     font-size:12.5px; padding:.5rem 1rem; border-radius:6px; margin-bottom:1rem; display:none;
   }
-  .geq-presencas-grid{ display:flex; flex-direction:column; gap:.5rem; margin-bottom:.5rem; }
-  .geq-presenca-row{ display:flex; align-items:center; gap:.6rem; }
-  .geq-presenca-row span{ flex:1; font-size:13.5px; }
-  .geq-presenca-row select{ width:82px; padding:.4rem; border:1px solid var(--line); border-radius:6px; font-size:13px; }
+  .geq-presencas-grid{ display:flex; flex-direction:column; gap:.8rem; margin-bottom:.8rem; }
+  .geq-presenca-row{ display:flex; align-items:center; gap:.8rem; padding:.85rem .95rem; background:linear-gradient(to right, #fff 0%, #fafbfc 100%); border:1px solid var(--line); border-radius:10px; box-shadow:0 1px 3px rgba(0,0,0,0.05); transition:all 0.2s ease; }
+  .geq-presenca-row:hover{ border-color:var(--gold); box-shadow:0 2px 6px rgba(240,191,44,0.1); }
+  .geq-presenca-row span{ flex:1; font-size:13.5px; font-weight:500; color:var(--text); }
+  .geq-presenca-row select{ width:58px; padding:.4rem .55rem; border:1.5px solid var(--gold); border-radius:7px; font-size:12.5px; background:#fff; color:var(--blue-dark); font-weight:700; cursor:pointer; transition:all 0.2s ease; }
+  .geq-presenca-row select:hover{ background:var(--gold-bg); }
+  .geq-presenca-row select:focus{ outline:none; box-shadow:0 0 0 3px rgba(240,191,44,0.2); }
   .geq-tablewrap{ overflow-x:auto; border:1px solid var(--line); border-radius:9px; }
   table.geq-table{ width:100%; border-collapse:collapse; font-size:12.5px; min-width:420px; }
   table.geq-table th{
@@ -243,7 +259,7 @@
     .geq-tab{ font-size:10.5px; padding:.6rem .2rem; }
     #geq-root{ font-size:14px; }
     form.geq-form{ grid-template-columns:1fr; }
-    .geq-fields{ grid-template-columns:1fr; }
+    .geq-fields{ grid-template-columns:1fr 1fr; }
   }
 
   #geq-login-overlay{
@@ -340,6 +356,8 @@
       <div><label>Contacto telefone</label><input type="tel" id="p-contacto" placeholder="912345678"></div>
       <div><label>Contacto emergência</label><input type="text" id="p-emerg" placeholder="919999999 (mãe)"></div>
       <div><label>Tamanho equipamento</label><input type="text" id="p-tam" placeholder="M"></div>
+      <div><label>Nº da camisola</label><input type="number" id="p-cam-num" min="1" placeholder="7"></div>
+      <div><label>Nome camisola</label><input type="text" id="p-cam-nome" placeholder="Silva"></div>
       <div class="geq-form-full"><label>Observações</label><input type="text" id="p-obs" placeholder="Capitã de equipa"></div>
       <div class="geq-form-actions">
         <button type="submit" class="geq-btn" id="btn-plantel">Adicionar atleta</button>
@@ -514,7 +532,8 @@
           <div class="f"><span class="k">Contacto</span>${esc2(a.contacto)||'—'}</div>
           <div class="f"><span class="k">Emergência</span>${esc2(a.emerg)||'—'}</div>
           <div class="f"><span class="k">Equip.</span>${esc2(a.tam)||'—'}</div>
-          ${a.obs ? `<div class="f geq-form-full"><span class="k">Obs.</span>${esc2(a.obs)}</div>` : ''}
+          <div class="f"><span class="k">Camisola</span>#${esc2(a.camNum)||'—'} ${esc2(a.camNome)||''}</div>
+          <div class="f full"><span class="k">Obs.</span>${esc2(a.obs)||'—'}</div>
         </div>
       </div>
     `).join('');
@@ -537,6 +556,8 @@
         document.getElementById('p-contacto').value = a.contacto || '';
         document.getElementById('p-emerg').value = a.emerg || '';
         document.getElementById('p-tam').value = a.tam || '';
+        document.getElementById('p-cam-num').value = a.camNum || '';
+        document.getElementById('p-cam-nome').value = a.camNome || '';
         document.getElementById('p-obs').value = a.obs || '';
         document.getElementById('btn-plantel').textContent = 'Guardar alterações';
         document.getElementById('cancel-plantel').style.display = 'inline-block';
@@ -567,6 +588,8 @@
       contacto: document.getElementById('p-contacto').value.trim(),
       emerg: document.getElementById('p-emerg').value.trim(),
       tam: document.getElementById('p-tam').value.trim(),
+      camNum: document.getElementById('p-cam-num').value,
+      camNome: document.getElementById('p-cam-nome').value.trim(),
       obs: document.getElementById('p-obs').value.trim()
     };
     if(!data.nome) return;
