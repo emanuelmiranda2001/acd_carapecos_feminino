@@ -212,7 +212,7 @@
   .geq-mini-btn.edit:hover{ background:#EAF0FB; }
   .geq-mini-btn.del{ color:var(--blue-deep); }
   .geq-mini-btn.del:hover{ background:var(--gold-bg); }
-  .geq-fields{ display:grid; grid-template-columns:1fr; gap:.5rem .9rem; }
+  .geq-fields{ display:grid; grid-template-columns:repeat(3,1fr); gap:.5rem .9rem; }
   .geq-fields .f.full{ grid-column:1/-1; }
   .geq-fields .f{ font-size:13px; color:var(--text); }
   .geq-fields .f .k{ color:var(--gold-dark); display:block; font-size:9.5px; text-transform:uppercase; letter-spacing:.05em; font-weight:700; margin-bottom:.2rem; }
@@ -259,7 +259,7 @@
     .geq-tab{ font-size:10.5px; padding:.6rem .2rem; }
     #geq-root{ font-size:14px; }
     form.geq-form{ grid-template-columns:repeat(2,1fr); }
-    .geq-fields{ grid-template-columns:1fr 1fr; }
+    .geq-fields{ grid-template-columns:repeat(2,1fr); }
   }
 
   #geq-login-overlay{
