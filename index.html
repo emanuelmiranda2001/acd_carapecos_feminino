@@ -135,6 +135,13 @@
     appearance:none;
     width:100%;
     padding:.55rem .6rem;
+    max-width:100%;
+    -webkit-box-sizing:border-box;
+    box-sizing:border-box;
+  }
+  form.geq-form input[type="date"]::-webkit-calendar-picker-indicator,
+  form.geq-form input[type="time"]::-webkit-calendar-picker-indicator{
+    display:none;
   }
   form.geq-form input:focus, form.geq-form select:focus, form.geq-form textarea:focus{
     outline:none;
