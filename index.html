@@ -233,11 +233,17 @@
     background:#FDF3D8; color:var(--gold-dark);
     font-size:12.5px; padding:.5rem 1rem; border-radius:6px; margin-bottom:1rem; display:none;
   }
-  .geq-presencas-grid{ display:flex; flex-direction:column; gap:.8rem; margin-bottom:.8rem; }
-  .geq-presenca-row{ display:flex; align-items:center; gap:.8rem; padding:.85rem .95rem; background:linear-gradient(to right, #fff 0%, #fafbfc 100%); border:1px solid var(--line); border-radius:10px; box-shadow:0 1px 3px rgba(0,0,0,0.05); transition:all 0.2s ease; }
+  .geq-presencas-grid{ display:flex; flex-direction:column; gap:.15rem; margin-bottom:.8rem; }
+  .geq-presenca-row{ display:flex; align-items:center; gap:.4rem; padding:.05rem .4rem; background:linear-gradient(to right, #fff 0%, #fafbfc 100%); border:1px solid var(--line); border-radius:6px; box-shadow:0 1px 3px rgba(0,0,0,0.05); transition:all 0.2s ease; }
   .geq-presenca-row:hover{ border-color:var(--gold); box-shadow:0 2px 6px rgba(240,191,44,0.1); }
-  .geq-presenca-row span{ flex:1; font-size:13.5px; font-weight:500; color:var(--text); }
-  .geq-presenca-row select{ max-width:58px; padding:.4rem .55rem; border:1.5px solid var(--gold); border-radius:7px; font-size:12.5px; background:#fff; color:var(--blue-dark); font-weight:700; cursor:pointer; transition:all 0.2s ease; }
+  .geq-presenca-row span{ flex:1; font-size:11.5px; font-weight:500; color:var(--text); }
+  .geq-presenca-row select{ max-width:58px; padding:.05rem .2rem; border:1.5px solid var(--gold); border-radius:5px; font-size:10.5px; background:#fff; color:var(--blue-dark); font-weight:700; cursor:pointer; transition:all 0.2s ease; }
+  @media (min-width:640px){
+    .geq-presencas-grid{ display:grid; grid-template-columns:repeat(2, 1fr); gap:.4rem .8rem; }
+    .geq-presenca-row{ padding:.4rem .6rem; }
+    .geq-presenca-row span{ font-size:13.5px; }
+    .geq-presenca-row select{ max-width:52px; padding:.25rem .4rem; font-size:12.5px; }
+  }
   .geq-presenca-row select:hover{ background:var(--gold-bg); }
   .geq-presenca-row select:focus{ outline:none; box-shadow:0 0 0 3px rgba(240,191,44,0.2); }
   .geq-tablewrap{ overflow-x:auto; border:1px solid var(--line); border-radius:9px; }
@@ -355,7 +361,7 @@
       <div><label>Posição</label><input type="text" id="p-posicao" placeholder="Avançada"></div>
       <div><label>Contacto telefone</label><input type="tel" id="p-contacto" placeholder="912345678"></div>
       <div><label>Contacto emergência</label><input type="text" id="p-emerg" placeholder="919999999 (mãe)"></div>
-      <div><label>Tamanho equipamento</label><input type="text" id="p-tam" placeholder="M"></div>
+      <div><label>Equipamento</label><input type="text" id="p-tam" placeholder="M"></div>
       <div><label>Nº da camisola</label><input type="number" id="p-cam-num" min="1" placeholder="7"></div>
       <div><label>Nome camisola</label><input type="text" id="p-cam-nome" placeholder="Silva"></div>
       <div class="geq-form-full"><label>Observações</label><input type="text" id="p-obs" placeholder="Capitã de equipa"></div>
@@ -398,7 +404,7 @@
           <option value="Vermelho (2º Amarelo)">Vermelho (2º amarelo)</option>
         </select>
       </div>
-      <div><label>Jogos de suspensão</label><input type="number" id="d-jogos" min="0" value="0"></div>
+      <div><label>Jogos suspensão</label><input type="number" id="d-jogos" min="0" value="0"></div>
       <div>
         <label>Suspensão cumprida</label>
         <select id="d-cumprida"><option value="N/A">N/A</option><option value="S">Sim</option><option value="N">Não</option></select>
