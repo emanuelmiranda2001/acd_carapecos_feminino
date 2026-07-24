@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gestão de equipa · Futebol 7 feminino</title>
+<title>A.C.D.C. Carapeços · Gestão de equipa</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
 <!-- Firebase (compat SDK, simples de usar sem build tools) -->
 <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
@@ -29,185 +29,279 @@
 </script>
 <style>
   :root{
-    --pitch:#163526;
-    --pitch-dark:#0E2419;
-    --gold:#B98B3E;
-    --gold-light:#E8D3A9;
-    --bg:#F7F5EF;
+    --blue:#1B3F8B;
+    --blue-dark:#0F2760;
+    --blue-deep:#081840;
+    --gold:#F0BF2C;
+    --gold-dark:#8A6412;
+    --navy:#1B3F8B;
+    --ink:#171512;
+    --bg:#FAF7F0;
     --card:#FFFFFF;
-    --line:#E3DFD3;
-    --text:#1C1C1A;
-    --text-2:#5B6B60;
-    --danger:#B23A2E;
-    --danger-bg:#F8E9E7;
+    --line:#E7E1D2;
+    --text:#1D1B17;
+    --text-2:#665F52;
+    --gold-bg:#FDF3D8;
   }
-  * { box-sizing: border-box; }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
   #geq-root{
     font-family:'Inter',sans-serif;
     background:var(--bg);
     color:var(--text);
-    padding:0;
-    max-width:920px;
+    max-width:760px;
     margin:0 auto;
+    font-size:15px;
   }
-  #geq-root h1,#geq-root h2,#geq-root h3{
+  #geq-root h1,#geq-root h2{
     font-family:'Oswald',sans-serif;
     text-transform:uppercase;
-    letter-spacing:0.04em;
+    letter-spacing:0.03em;
     margin:0;
     font-weight:600;
   }
   .geq-header{
-    background:var(--pitch);
+    background:linear-gradient(120deg, var(--blue) 0%, var(--blue) 58%, var(--gold) 58%, var(--gold) 100%);
     color:#fff;
-    padding:1.5rem 1.5rem 1.25rem;
-    border-radius:12px 12px 0 0;
-    position:relative;
-    overflow:hidden;
+    padding:1.35rem 1.25rem 1.15rem;
+    border-radius:14px 14px 0 0;
+    border:3px solid var(--navy);
+    border-bottom:none;
   }
-  .geq-header::after{
-    content:"";
-    position:absolute;
-    right:-40px; top:-40px;
-    width:160px;height:160px;
-    border:2px solid rgba(255,255,255,0.08);
-    border-radius:50%;
-  }
-  .geq-header h1{ font-size:22px; color:#fff; }
-  .geq-header p{ margin:.4rem 0 0; font-size:13px; color:var(--gold-light); font-family:'Inter',sans-serif; letter-spacing:0; text-transform:none; }
+  .geq-header h1{ font-size:19px; color:#fff; text-shadow:0 1px 2px rgba(0,0,0,0.35); }
+  .geq-header p{ margin:.35rem 0 0; font-size:12.5px; color:#fff; opacity:.92; font-family:'Inter',sans-serif; letter-spacing:0; text-transform:none; text-shadow:0 1px 2px rgba(0,0,0,0.3); }
   .geq-warn{
     background:#fff;
-    border:1px solid var(--line);
-    border-top:none;
-    padding:.6rem 1.5rem;
-    font-size:12.5px;
+    border:3px solid var(--navy);
+    border-top:none; border-bottom:none;
+    padding:.55rem 1.25rem;
+    font-size:12px;
     color:var(--text-2);
-    display:flex;
-    gap:.5rem;
-    align-items:center;
   }
   .geq-tabs{
     display:flex;
-    gap:2px;
-    background:var(--line);
-    padding:0;
-    margin:0;
+    border:3px solid var(--navy);
+    border-top:none;
+    background:var(--ink);
   }
   .geq-tab{
     flex:1;
-    padding:.75rem .5rem;
+    padding:.7rem .3rem;
     text-align:center;
-    background:#EFEBDF;
+    background:var(--ink);
     border:none;
     cursor:pointer;
     font-family:'Oswald',sans-serif;
-    font-size:12.5px;
-    letter-spacing:0.05em;
+    font-size:12px;
+    letter-spacing:0.03em;
     text-transform:uppercase;
-    color:var(--text-2);
-    transition:background .15s, color .15s;
+    color:#C9C5BA;
   }
-  .geq-tab.active{ background:var(--card); color:var(--pitch); border-bottom:3px solid var(--gold); }
-  .geq-panel{ display:none; background:var(--card); padding:1.5rem; border-radius:0 0 12px 12px; }
+  .geq-tab.active{ background:var(--card); color:var(--blue-dark); }
+  .geq-panel{ display:none; background:var(--card); padding:1.25rem; border:3px solid var(--navy); border-top:none; border-radius:0 0 14px 14px; }
   .geq-panel.active{ display:block; }
-  .geq-section-title{ font-size:14px; color:var(--pitch); margin-bottom:1rem; }
+  .geq-section-title{ font-size:13px; color:var(--blue-dark); margin-bottom:.9rem; display:flex; align-items:center; gap:.5rem; }
+  .geq-section-title::before{ content:""; width:8px; height:8px; background:var(--gold); border-radius:50%; display:inline-block; }
   form.geq-form{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-    gap:.75rem;
-    margin-bottom:1.5rem;
-    padding-bottom:1.5rem;
-    border-bottom:1px solid var(--line);
+    grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    gap:.7rem;
+    margin-bottom:1.1rem;
+    padding:1rem;
+    background:var(--bg);
+    border:1px solid var(--line);
+    border-radius:10px;
   }
   form.geq-form label{
-    font-size:11.5px;
+    font-size:11px;
     text-transform:uppercase;
-    letter-spacing:0.04em;
+    letter-spacing:0.03em;
     color:var(--text-2);
     display:block;
     margin-bottom:.3rem;
   }
   form.geq-form input, form.geq-form select, form.geq-form textarea{
     width:100%;
-    padding:.5rem .6rem;
+    padding:.55rem .6rem;
     border:1px solid var(--line);
-    border-radius:6px;
+    border-radius:7px;
     font-family:'Inter',sans-serif;
-    font-size:13.5px;
-    background:#FCFBF8;
+    font-size:14.5px;
+    background:#FFFFFF;
     color:var(--text);
   }
   form.geq-form input:focus, form.geq-form select:focus, form.geq-form textarea:focus{
     outline:none;
-    border-color:var(--gold);
-    box-shadow:0 0 0 2px var(--gold-light);
+    border-color:var(--gold-dark);
+    box-shadow:0 0 0 3px rgba(240,191,44,0.3);
   }
   .geq-form-full{ grid-column:1/-1; }
+  .geq-form-actions{ grid-column:1/-1; display:flex; gap:.6rem; align-items:center; flex-wrap:wrap; }
   .geq-btn{
-    background:var(--pitch);
+    background:var(--blue-dark);
     color:#fff;
     border:none;
-    padding:.6rem 1.2rem;
-    border-radius:6px;
+    padding:.65rem 1.1rem;
+    border-radius:7px;
     font-family:'Oswald',sans-serif;
     font-size:12.5px;
-    letter-spacing:0.04em;
+    letter-spacing:0.03em;
     text-transform:uppercase;
     cursor:pointer;
-    align-self:end;
-    height:38px;
+    white-space:nowrap;
   }
-  .geq-btn:hover{ background:var(--pitch-dark); }
-  .geq-btn.gold{ background:var(--gold); color:var(--pitch-dark); }
-  table.geq-table{ width:100%; border-collapse:collapse; font-size:13px; }
-  table.geq-table th{
-    background:#F0EDE3;
-    color:var(--text-2);
-    text-transform:uppercase;
-    font-size:11px;
-    letter-spacing:0.03em;
-    text-align:left;
-    padding:.5rem .6rem;
-    border-bottom:2px solid var(--line);
+  .geq-btn:active{ transform:scale(0.98); }
+  .geq-btn.gold{ background:var(--gold); color:var(--gold-dark); }
+  .geq-btn.ghost{ background:transparent; color:var(--text-2); border:1px solid var(--line); }
+  .geq-edit-banner{
+    grid-column:1/-1;
+    background:#FDF3D8;
+    border:1px solid var(--gold);
+    color:var(--gold-dark);
+    font-size:12.5px;
+    padding:.5rem .7rem;
+    border-radius:7px;
+    display:none;
   }
-  table.geq-table td{ padding:.5rem .6rem; border-bottom:1px solid var(--line); vertical-align:middle; }
-  table.geq-table tr:last-child td{ border-bottom:none; }
-  .geq-del{
-    background:none; border:none; color:var(--danger); cursor:pointer; font-size:12px;
-    text-decoration:underline;
+  .geq-edit-banner.show{ display:block; }
+
+  .geq-list{ display:flex; flex-direction:column; gap:.6rem; }
+  .geq-card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:.75rem .9rem;
+    border-left:4px solid var(--blue);
   }
-  .geq-empty{ color:var(--text-2); font-size:13px; padding:1rem 0; }
-  .geq-stats{ display:flex; gap:.75rem; margin:1rem 0 1.5rem; flex-wrap:wrap; }
-  .geq-stat{
-    background:#F0EDE3; border-radius:8px; padding:.6rem .9rem; flex:1; min-width:120px;
+  .geq-card.is-danger{ border-left-color:var(--gold); }
+  .geq-card.is-gold{ border-left-color:var(--gold); }
+  .geq-card-head{ display:flex; justify-content:space-between; align-items:center; gap:.5rem; margin-bottom:.4rem; }
+  .geq-card-head strong{ font-size:14.5px; }
+  .geq-card-actions{ display:flex; gap:.4rem; flex-shrink:0; }
+  .geq-mini-btn{
+    background:none; border:none; cursor:pointer; font-size:12px;
+    padding:.2rem .4rem; border-radius:5px; font-family:'Inter',sans-serif; font-weight:500;
   }
-  .geq-stat span{ display:block; }
-  .geq-stat .label{ font-size:11px; color:var(--text-2); text-transform:uppercase; letter-spacing:0.03em; }
-  .geq-stat .value{ font-family:'Oswald',sans-serif; font-size:19px; color:var(--pitch); margin-top:2px; }
-  .geq-badge{ padding:.15rem .5rem; border-radius:4px; font-size:11.5px; font-weight:600; }
-  .badge-v{ background:#E5F0E4; color:#2C6B2A; }
-  .badge-e{ background:#EFEBDF; color:var(--text-2); }
-  .badge-d{ background:var(--danger-bg); color:var(--danger); }
-  .badge-am{ background:#FBF0D6; color:#8A6412; }
-  .badge-verm{ background:var(--danger-bg); color:var(--danger); }
+  .geq-mini-btn.edit{ color:var(--navy); }
+  .geq-mini-btn.edit:hover{ background:#EAF0FB; }
+  .geq-mini-btn.del{ color:var(--blue-deep); }
+  .geq-mini-btn.del:hover{ background:var(--gold-bg); }
+  .geq-fields{ display:grid; grid-template-columns:repeat(auto-fit,minmax(110px,1fr)); gap:.35rem .8rem; }
+  .geq-fields .f{ font-size:12.5px; }
+  .geq-fields .f .k{ color:var(--text-2); display:block; font-size:10.5px; text-transform:uppercase; letter-spacing:.02em; }
+  .geq-empty{ color:var(--text-2); font-size:13px; padding:1.2rem 0; text-align:center; }
+  .geq-stats{ display:flex; gap:.6rem; margin:0 0 1.1rem; flex-wrap:wrap; }
+  .geq-stat{ background:var(--bg); border:1px solid var(--line); border-radius:9px; padding:.6rem .8rem; flex:1; min-width:100px; }
+  .geq-stat .label{ font-size:10.5px; color:var(--text-2); text-transform:uppercase; letter-spacing:0.03em; }
+  .geq-stat .value{ font-family:'Oswald',sans-serif; font-size:19px; color:var(--blue-dark); margin-top:2px; }
+  .geq-badge{ padding:.15rem .55rem; border-radius:20px; font-size:11px; font-weight:600; white-space:nowrap; }
+  .badge-v{ background:#E5ECFA; color:var(--blue-dark); }
+  .badge-e{ background:#F0EDE3; color:var(--text-2); }
+  .badge-d{ background:#FDF3D8; color:var(--gold-dark); }
+  .badge-am{ background:#FBF0D6; color:var(--gold-dark); }
+  .badge-verm{ background:var(--blue-deep); color:#fff; }
   .geq-toast{
     position:sticky; top:0; z-index:10;
-    background:var(--danger-bg); color:var(--danger);
+    background:#FDF3D8; color:var(--gold-dark);
     font-size:12.5px; padding:.5rem 1rem; border-radius:6px; margin-bottom:1rem; display:none;
   }
-  .geq-tablewrap{ overflow-x:auto; }
-  select.geq-status option[value="P"]{ color:#2C6B2A; }
-  select.geq-status option[value="F"]{ color:var(--danger); }
+  .geq-presencas-grid{ display:flex; flex-direction:column; gap:.5rem; margin-bottom:.5rem; }
+  .geq-presenca-row{ display:flex; align-items:center; gap:.6rem; }
+  .geq-presenca-row span{ flex:1; font-size:13.5px; }
+  .geq-presenca-row select{ width:82px; padding:.4rem; border:1px solid var(--line); border-radius:6px; font-size:13px; }
+  .geq-tablewrap{ overflow-x:auto; border:1px solid var(--line); border-radius:9px; }
+  table.geq-table{ width:100%; border-collapse:collapse; font-size:12.5px; min-width:420px; }
+  table.geq-table th{
+    background:var(--bg); color:var(--text-2); text-transform:uppercase; font-size:10.5px;
+    letter-spacing:0.02em; text-align:left; padding:.5rem .6rem; border-bottom:2px solid var(--line);
+    position:sticky; top:0;
+  }
+  table.geq-table th:first-child, table.geq-table td:first-child{
+    position:sticky; left:0; background:#fff; z-index:1; border-right:1px solid var(--line);
+  }
+  table.geq-table th:first-child{ background:var(--bg); z-index:2; }
+  table.geq-table td{ padding:.5rem .6rem; border-bottom:1px solid var(--line); white-space:nowrap; }
+  table.geq-table tr:last-child td{ border-bottom:none; }
+  @media (max-width:480px){
+    .geq-header{ padding:1.1rem 1rem .95rem; }
+    .geq-header h1{ font-size:16.5px; }
+    .geq-tab{ font-size:10.5px; padding:.6rem .2rem; }
+    #geq-root{ font-size:14px; }
+  }
+
+  #geq-login-overlay{
+    max-width:360px;
+    margin:10vh auto;
+    background:var(--card);
+    border:3px solid var(--blue-dark);
+    border-radius:14px;
+    padding:2rem 1.5rem;
+    text-align:center;
+    font-family:'Inter',sans-serif;
+  }
+  #geq-login-overlay h2{
+    font-family:'Oswald',sans-serif;
+    text-transform:uppercase;
+    letter-spacing:0.03em;
+    color:var(--blue-dark);
+    font-size:16px;
+    margin:0 0 .3rem;
+  }
+  #geq-login-overlay p{ color:var(--text-2); font-size:13px; margin:0 0 1.3rem; }
+  #geq-login-code{
+    width:100%;
+    text-align:center;
+    font-size:22px;
+    letter-spacing:0.3em;
+    padding:.7rem;
+    border:1px solid var(--line);
+    border-radius:8px;
+    margin-bottom:.9rem;
+    font-family:'Oswald',sans-serif;
+  }
+  #geq-login-code:focus{ outline:none; border-color:var(--gold-dark); box-shadow:0 0 0 3px rgba(240,191,44,0.3); }
+  #geq-login-btn{
+    width:100%;
+    background:var(--blue-dark);
+    color:#fff;
+    border:none;
+    padding:.75rem;
+    border-radius:8px;
+    font-family:'Oswald',sans-serif;
+    font-size:13px;
+    letter-spacing:0.03em;
+    text-transform:uppercase;
+    cursor:pointer;
+  }
+  #geq-login-error{
+    color:var(--gold-dark);
+    background:var(--gold-bg);
+    font-size:12.5px;
+    padding:.5rem;
+    border-radius:6px;
+    margin-top:.8rem;
+    display:none;
+  }
+  #geq-login-error.show{ display:block; }
+  #geq-app-wrapper{ display:none; }
 </style>
 </head>
 <body>
 
+<div id="geq-login-overlay">
+  <h2>Acesso reservado</h2>
+  <p>Introduz o código da equipa para continuar.</p>
+  <input type="tel" inputmode="numeric" pattern="[0-9]*" id="geq-login-code" maxlength="8" placeholder="••••">
+  <button id="geq-login-btn">Entrar</button>
+  <div id="geq-login-error">Código incorreto. Tenta novamente.</div>
+</div>
+
+<div id="geq-app-wrapper">
 <div id="geq-root">
   <div class="geq-header">
-    <h1>Gestão de equipa · Futebol 7 feminino</h1>
-    <p>Dados partilhados — visíveis a qualquer pessoa com este link</p>
+    <h1>A.C.D.C. Carapeços · Futebol 7 feminino</h1>
+    <p>Gestão de equipa — dados partilhados com quem tiver este link</p>
   </div>
-  <div class="geq-warn">Todos os dados guardados aqui ficam na base de dados do projeto Firebase. Qualquer pessoa com o link do site vê e edita os dados — não partilhes o link publicamente.</div>
+  <div class="geq-warn">Acesso protegido por código. Quem tiver o código vê e edita os dados — não o partilhes fora da equipa técnica.</div>
   <div class="geq-tabs">
     <button class="geq-tab active" data-tab="plantel">Plantel</button>
     <button class="geq-tab" data-tab="presencas">Presenças</button>
@@ -218,8 +312,9 @@
   <div id="geq-toast" class="geq-toast"></div>
 
   <section class="geq-panel active" id="panel-plantel">
-    <h2 class="geq-section-title">Adicionar atleta</h2>
+    <h2 class="geq-section-title">Atletas</h2>
     <form class="geq-form" id="form-plantel">
+      <div class="geq-edit-banner" id="edit-banner-plantel">A editar atleta — grava para atualizar, ou cancela.</div>
       <div><label>Nome completo</label><input type="text" id="p-nome" required placeholder="Joana Silva Santos"></div>
       <div><label>Data de nascimento</label><input type="date" id="p-nasc"></div>
       <div><label>Nº CC / BI</label><input type="text" id="p-cc" placeholder="12345678"></div>
@@ -228,25 +323,34 @@
       <div><label>Contacto emergência</label><input type="text" id="p-emerg" placeholder="919999999 (mãe)"></div>
       <div><label>Tamanho equipamento</label><input type="text" id="p-tam" placeholder="M"></div>
       <div class="geq-form-full"><label>Observações</label><input type="text" id="p-obs" placeholder="Capitã de equipa"></div>
-      <div><button type="submit" class="geq-btn">Adicionar atleta</button></div>
+      <div class="geq-form-actions">
+        <button type="submit" class="geq-btn" id="btn-plantel">Adicionar atleta</button>
+        <button type="button" class="geq-btn ghost" id="cancel-plantel" style="display:none;">Cancelar edição</button>
+      </div>
     </form>
-    <div class="geq-tablewrap"><table class="geq-table" id="table-plantel"></table></div>
+    <div class="geq-list" id="list-plantel"></div>
   </section>
 
   <section class="geq-panel" id="panel-presencas">
     <h2 class="geq-section-title">Registar presenças de um treino</h2>
     <form class="geq-form" id="form-presencas">
       <div><label>Data do treino</label><input type="date" id="pr-data" required></div>
-      <div class="geq-form-full" id="pr-atletas"></div>
-      <div><button type="submit" class="geq-btn">Guardar presenças</button></div>
+      <div class="geq-form-full">
+        <label>Presença de cada atleta</label>
+        <div class="geq-presencas-grid" id="pr-atletas"></div>
+      </div>
+      <div class="geq-form-actions">
+        <button type="submit" class="geq-btn" id="btn-presencas">Guardar presenças</button>
+      </div>
     </form>
     <h2 class="geq-section-title">Histórico</h2>
     <div class="geq-tablewrap"><table class="geq-table" id="table-presencas"></table></div>
   </section>
 
   <section class="geq-panel" id="panel-disciplinar">
-    <h2 class="geq-section-title">Novo registo disciplinar</h2>
+    <h2 class="geq-section-title">Registo disciplinar</h2>
     <form class="geq-form" id="form-disciplinar">
+      <div class="geq-edit-banner" id="edit-banner-disciplinar">A editar registo — grava para atualizar, ou cancela.</div>
       <div><label>Jornada nº</label><input type="number" id="d-jornada" min="1"></div>
       <div><label>Data</label><input type="date" id="d-data" required></div>
       <div><label>Atleta</label><select id="d-atleta" required></select></div>
@@ -264,18 +368,22 @@
         <select id="d-cumprida"><option value="N/A">N/A</option><option value="S">Sim</option><option value="N">Não</option></select>
       </div>
       <div class="geq-form-full"><label>Motivo</label><input type="text" id="d-motivo" placeholder="Protesto"></div>
-      <div><button type="submit" class="geq-btn">Adicionar registo</button></div>
+      <div class="geq-form-actions">
+        <button type="submit" class="geq-btn" id="btn-disciplinar">Adicionar registo</button>
+        <button type="button" class="geq-btn ghost" id="cancel-disciplinar" style="display:none;">Cancelar edição</button>
+      </div>
     </form>
     <div class="geq-stats">
       <div class="geq-stat"><span class="label">Cartões amarelos</span><span class="value" id="stat-amarelos">0</span></div>
       <div class="geq-stat"><span class="label">Cartões vermelhos</span><span class="value" id="stat-vermelhos">0</span></div>
     </div>
-    <div class="geq-tablewrap"><table class="geq-table" id="table-disciplinar"></table></div>
+    <div class="geq-list" id="list-disciplinar"></div>
   </section>
 
   <section class="geq-panel" id="panel-calendario">
-    <h2 class="geq-section-title">Novo jogo</h2>
+    <h2 class="geq-section-title">Jogos</h2>
     <form class="geq-form" id="form-calendario">
+      <div class="geq-edit-banner" id="edit-banner-calendario">A editar jogo — grava para atualizar, ou cancela.</div>
       <div><label>Jornada nº</label><input type="number" id="c-jornada" min="1"></div>
       <div><label>Data</label><input type="date" id="c-data" required></div>
       <div><label>Hora</label><input type="time" id="c-hora"></div>
@@ -283,15 +391,19 @@
       <div class="geq-form-full"><label>Adversário</label><input type="text" id="c-adversario" placeholder="Nome do clube adversário"></div>
       <div><label>Golos marcados</label><input type="number" id="c-golos-m" min="0" value="0"></div>
       <div><label>Golos sofridos</label><input type="number" id="c-golos-s" min="0" value="0"></div>
-      <div><button type="submit" class="geq-btn">Adicionar jogo</button></div>
+      <div class="geq-form-actions">
+        <button type="submit" class="geq-btn" id="btn-calendario">Adicionar jogo</button>
+        <button type="button" class="geq-btn ghost" id="cancel-calendario" style="display:none;">Cancelar edição</button>
+      </div>
     </form>
     <div class="geq-stats">
       <div class="geq-stat"><span class="label">Pontos</span><span class="value" id="stat-pontos">0</span></div>
       <div class="geq-stat"><span class="label">Golos marcados</span><span class="value" id="stat-gm">0</span></div>
       <div class="geq-stat"><span class="label">Golos sofridos</span><span class="value" id="stat-gs">0</span></div>
     </div>
-    <div class="geq-tablewrap"><table class="geq-table" id="table-calendario"></table></div>
+    <div class="geq-list" id="list-calendario"></div>
   </section>
+</div>
 </div>
 
 <script>
@@ -303,8 +415,6 @@
     setTimeout(()=>{ toastEl.style.display='none'; }, 4000);
   }
 
-  // Guarda tudo numa única coleção "geq_store", usando o mesmo formato de
-  // chave que antes (ex: "plantel:abc123"), para não ter de tocar no resto do código.
   async function storageGet(key){
     try{
       const doc = await geqDb.collection('geq_store').doc(key).get();
@@ -342,12 +452,13 @@
     });
   });
 
-  function esc(s){
-    return (s===undefined||s===null) ? '' : String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  function esc2(s){
+    return (s===undefined||s===null) ? '' : String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
   }
 
   // ---------- PLANTEL ----------
   let plantel = [];
+  let editingPlantelId = null;
 
   async function loadPlantel(){
     const keys = await storageList('plantel:');
@@ -364,31 +475,71 @@
   }
 
   function renderPlantel(){
-    const table = document.getElementById('table-plantel');
+    const list = document.getElementById('list-plantel');
     if(plantel.length===0){
-      table.innerHTML = '<tr><td class="geq-empty">Ainda não há atletas registadas.</td></tr>';
+      list.innerHTML = '<p class="geq-empty">Ainda não há atletas registadas.</p>';
       return;
     }
-    let html = '<tr><th>Nome</th><th>Nasc.</th><th>CC</th><th>Posição</th><th>Contacto</th><th>Emergência</th><th>Equip.</th><th>Obs.</th><th></th></tr>';
-    for(const a of plantel){
-      html += `<tr>
-        <td>${esc(a.nome)}</td><td>${esc(a.nasc)}</td><td>${esc(a.cc)}</td><td>${esc(a.posicao)}</td>
-        <td>${esc(a.contacto)}</td><td>${esc(a.emerg)}</td><td>${esc(a.tam)}</td><td>${esc(a.obs)}</td>
-        <td><button class="geq-del" data-id="${a.id}">Apagar</button></td>
-      </tr>`;
-    }
-    table.innerHTML = html;
-    table.querySelectorAll('.geq-del').forEach(btn=>{
+    list.innerHTML = plantel.map(a=>`
+      <div class="geq-card">
+        <div class="geq-card-head">
+          <strong>${esc2(a.nome)}</strong>
+          <div class="geq-card-actions">
+            <button class="geq-mini-btn edit" data-id="${a.id}">Editar</button>
+            <button class="geq-mini-btn del" data-id="${a.id}">Apagar</button>
+          </div>
+        </div>
+        <div class="geq-fields">
+          <div class="f"><span class="k">Nasc.</span>${esc2(a.nasc)||'—'}</div>
+          <div class="f"><span class="k">CC</span>${esc2(a.cc)||'—'}</div>
+          <div class="f"><span class="k">Posição</span>${esc2(a.posicao)||'—'}</div>
+          <div class="f"><span class="k">Contacto</span>${esc2(a.contacto)||'—'}</div>
+          <div class="f"><span class="k">Emergência</span>${esc2(a.emerg)||'—'}</div>
+          <div class="f"><span class="k">Equip.</span>${esc2(a.tam)||'—'}</div>
+          ${a.obs ? `<div class="f geq-form-full"><span class="k">Obs.</span>${esc2(a.obs)}</div>` : ''}
+        </div>
+      </div>
+    `).join('');
+    list.querySelectorAll('.geq-mini-btn.del').forEach(btn=>{
       btn.addEventListener('click', async ()=>{
         await storageDelete('plantel:'+btn.dataset.id);
+        if(editingPlantelId === btn.dataset.id) exitEditPlantel();
         await loadPlantel();
+      });
+    });
+    list.querySelectorAll('.geq-mini-btn.edit').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const a = plantel.find(x=>x.id===btn.dataset.id);
+        if(!a) return;
+        editingPlantelId = a.id;
+        document.getElementById('p-nome').value = a.nome || '';
+        document.getElementById('p-nasc').value = a.nasc || '';
+        document.getElementById('p-cc').value = a.cc || '';
+        document.getElementById('p-posicao').value = a.posicao || '';
+        document.getElementById('p-contacto').value = a.contacto || '';
+        document.getElementById('p-emerg').value = a.emerg || '';
+        document.getElementById('p-tam').value = a.tam || '';
+        document.getElementById('p-obs').value = a.obs || '';
+        document.getElementById('btn-plantel').textContent = 'Guardar alterações';
+        document.getElementById('cancel-plantel').style.display = 'inline-block';
+        document.getElementById('edit-banner-plantel').classList.add('show');
+        document.getElementById('form-plantel').scrollIntoView({behavior:'smooth', block:'start'});
       });
     });
   }
 
+  function exitEditPlantel(){
+    editingPlantelId = null;
+    document.getElementById('form-plantel').reset();
+    document.getElementById('btn-plantel').textContent = 'Adicionar atleta';
+    document.getElementById('cancel-plantel').style.display = 'none';
+    document.getElementById('edit-banner-plantel').classList.remove('show');
+  }
+  document.getElementById('cancel-plantel').addEventListener('click', exitEditPlantel);
+
   document.getElementById('form-plantel').addEventListener('submit', async (e)=>{
     e.preventDefault();
-    const id = crypto.randomUUID();
+    const id = editingPlantelId || crypto.randomUUID();
     const data = {
       id,
       nome: document.getElementById('p-nome').value.trim(),
@@ -402,29 +553,41 @@
     };
     if(!data.nome) return;
     await storageSet('plantel:'+id, JSON.stringify(data));
-    e.target.reset();
+    exitEditPlantel();
     await loadPlantel();
   });
 
   // ---------- PRESENÇAS ----------
+  let presencasRecords = [];
+
   function renderPresencasForm(){
     const wrap = document.getElementById('pr-atletas');
     if(plantel.length===0){
       wrap.innerHTML = '<p class="geq-empty">Adiciona atletas ao Plantel primeiro.</p>';
       return;
     }
-    let html = '<label>Presença de cada atleta</label><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.5rem;">';
-    for(const a of plantel){
-      html += `<div style="display:flex;align-items:center;gap:.5rem;">
-        <span style="flex:1;font-size:13px;">${esc(a.nome)}</span>
-        <select class="geq-status" data-atleta="${a.id}" style="width:90px;">
+    wrap.innerHTML = plantel.map(a=>`
+      <div class="geq-presenca-row">
+        <span>${esc2(a.nome)}</span>
+        <select class="geq-status" data-atleta="${a.id}">
           <option value="P">P</option><option value="F">F</option><option value="FJ">FJ</option>
         </select>
-      </div>`;
-    }
-    html += '</div>';
-    wrap.innerHTML = html;
+      </div>
+    `).join('');
+    prefillPresencasForDate(document.getElementById('pr-data').value);
   }
+
+  function prefillPresencasForDate(date){
+    const rec = presencasRecords.find(r=>r.date===date);
+    document.querySelectorAll('#pr-atletas .geq-status').forEach(sel=>{
+      sel.value = (rec && rec.data[sel.dataset.atleta]) || 'P';
+    });
+    document.getElementById('btn-presencas').textContent = rec ? 'Atualizar presenças deste treino' : 'Guardar presenças';
+  }
+
+  document.getElementById('pr-data').addEventListener('change', (e)=>{
+    prefillPresencasForDate(e.target.value);
+  });
 
   async function loadPresencas(){
     const keys = await storageList('presenca:');
@@ -434,6 +597,7 @@
       if(v){ try{ records.push({date: k.replace('presenca:',''), data: JSON.parse(v)}); }catch(e){} }
     }
     records.sort((a,b)=> a.date.localeCompare(b.date));
+    presencasRecords = records;
     renderPresencasTable(records);
   }
 
@@ -444,10 +608,10 @@
       return;
     }
     let html = '<tr><th>Data</th>';
-    for(const a of plantel) html += `<th>${esc(a.nome)}</th>`;
+    for(const a of plantel) html += `<th>${esc2(a.nome)}</th>`;
     html += '</tr>';
     for(const r of records){
-      html += `<tr><td>${esc(r.date)}</td>`;
+      html += `<tr><td>${esc2(r.date)}</td>`;
       for(const a of plantel){
         const st = r.data[a.id] || '—';
         let badge = st;
@@ -458,7 +622,7 @@
       }
       html += '</tr>';
     }
-    html += '<tr><td>% presença</td>';
+    html += '<tr><td><strong>% presença</strong></td>';
     for(const a of plantel){
       let p=0, total=0;
       for(const r of records){
@@ -482,16 +646,21 @@
     });
     await storageSet('presenca:'+date, JSON.stringify(record));
     await loadPresencas();
+    prefillPresencasForDate(date);
   });
 
   // ---------- DISCIPLINAR ----------
+  let editingDisciplinarId = null;
+
   function renderAtletaSelect(){
     const sel = document.getElementById('d-atleta');
+    const prev = sel.value;
     if(plantel.length===0){
       sel.innerHTML = '<option value="">Sem atletas no Plantel</option>';
       return;
     }
-    sel.innerHTML = plantel.map(a=>`<option value="${a.id}">${esc(a.nome)}</option>`).join('');
+    sel.innerHTML = plantel.map(a=>`<option value="${a.id}">${esc2(a.nome)}</option>`).join('');
+    if(prev) sel.value = prev;
   }
 
   async function loadDisciplinar(){
@@ -510,8 +679,10 @@
     return a ? a.nome : '(atleta removida)';
   }
 
+  let disciplinarItems = [];
   function renderDisciplinar(items){
-    const table = document.getElementById('table-disciplinar');
+    disciplinarItems = items;
+    const list = document.getElementById('list-disciplinar');
     let amarelos = 0, vermelhos = 0;
     items.forEach(it=>{
       if(it.tipo==='Amarelo') amarelos++;
@@ -521,30 +692,71 @@
     document.getElementById('stat-vermelhos').textContent = vermelhos;
 
     if(items.length===0){
-      table.innerHTML = '<tr><td class="geq-empty">Ainda não há registos disciplinares.</td></tr>';
+      list.innerHTML = '<p class="geq-empty">Ainda não há registos disciplinares.</p>';
       return;
     }
-    let html = '<tr><th>Jornada</th><th>Data</th><th>Atleta</th><th>Cartão</th><th>Motivo</th><th>Suspensão</th><th>Cumprida</th><th></th></tr>';
-    for(const it of items){
-      const badge = it.tipo==='Amarelo' ? '<span class="geq-badge badge-am">Amarelo</span>' : `<span class="geq-badge badge-verm">${esc(it.tipo)}</span>`;
-      html += `<tr>
-        <td>${esc(it.jornada)}</td><td>${esc(it.data)}</td><td>${esc(nomeAtleta(it.atletaId))}</td>
-        <td>${badge}</td><td>${esc(it.motivo)}</td><td>${esc(it.jogos)}</td><td>${esc(it.cumprida)}</td>
-        <td><button class="geq-del" data-id="${it.id}">Apagar</button></td>
-      </tr>`;
-    }
-    table.innerHTML = html;
-    table.querySelectorAll('.geq-del').forEach(btn=>{
+    list.innerHTML = items.map(it=>{
+      const isAmarelo = it.tipo === 'Amarelo';
+      const badge = isAmarelo ? '<span class="geq-badge badge-am">Amarelo</span>' : `<span class="geq-badge badge-verm">${esc2(it.tipo)}</span>`;
+      return `
+      <div class="geq-card ${isAmarelo ? 'is-gold' : 'is-danger'}">
+        <div class="geq-card-head">
+          <strong>${esc2(nomeAtleta(it.atletaId))}</strong>
+          <div class="geq-card-actions">
+            <button class="geq-mini-btn edit" data-id="${it.id}">Editar</button>
+            <button class="geq-mini-btn del" data-id="${it.id}">Apagar</button>
+          </div>
+        </div>
+        <div class="geq-fields">
+          <div class="f"><span class="k">Jornada</span>${esc2(it.jornada)||'—'}</div>
+          <div class="f"><span class="k">Data</span>${esc2(it.data)||'—'}</div>
+          <div class="f"><span class="k">Cartão</span>${badge}</div>
+          <div class="f"><span class="k">Suspensão</span>${esc2(it.jogos)||'0'} jogo(s)</div>
+          <div class="f"><span class="k">Cumprida</span>${esc2(it.cumprida)||'—'}</div>
+          ${it.motivo ? `<div class="f geq-form-full"><span class="k">Motivo</span>${esc2(it.motivo)}</div>` : ''}
+        </div>
+      </div>`;
+    }).join('');
+    list.querySelectorAll('.geq-mini-btn.del').forEach(btn=>{
       btn.addEventListener('click', async ()=>{
         await storageDelete('disciplinar:'+btn.dataset.id);
+        if(editingDisciplinarId === btn.dataset.id) exitEditDisciplinar();
         await loadDisciplinar();
+      });
+    });
+    list.querySelectorAll('.geq-mini-btn.edit').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const it = disciplinarItems.find(x=>x.id===btn.dataset.id);
+        if(!it) return;
+        editingDisciplinarId = it.id;
+        document.getElementById('d-jornada').value = it.jornada || '';
+        document.getElementById('d-data').value = it.data || '';
+        document.getElementById('d-atleta').value = it.atletaId || '';
+        document.getElementById('d-tipo').value = it.tipo || 'Amarelo';
+        document.getElementById('d-jogos').value = it.jogos || 0;
+        document.getElementById('d-cumprida').value = it.cumprida || 'N/A';
+        document.getElementById('d-motivo').value = it.motivo || '';
+        document.getElementById('btn-disciplinar').textContent = 'Guardar alterações';
+        document.getElementById('cancel-disciplinar').style.display = 'inline-block';
+        document.getElementById('edit-banner-disciplinar').classList.add('show');
+        document.getElementById('form-disciplinar').scrollIntoView({behavior:'smooth', block:'start'});
       });
     });
   }
 
+  function exitEditDisciplinar(){
+    editingDisciplinarId = null;
+    document.getElementById('form-disciplinar').reset();
+    document.getElementById('d-jogos').value = 0;
+    document.getElementById('btn-disciplinar').textContent = 'Adicionar registo';
+    document.getElementById('cancel-disciplinar').style.display = 'none';
+    document.getElementById('edit-banner-disciplinar').classList.remove('show');
+  }
+  document.getElementById('cancel-disciplinar').addEventListener('click', exitEditDisciplinar);
+
   document.getElementById('form-disciplinar').addEventListener('submit', async (e)=>{
     e.preventDefault();
-    const id = crypto.randomUUID();
+    const id = editingDisciplinarId || crypto.randomUUID();
     const data = {
       id,
       jornada: document.getElementById('d-jornada').value,
@@ -556,12 +768,14 @@
       cumprida: document.getElementById('d-cumprida').value
     };
     await storageSet('disciplinar:'+id, JSON.stringify(data));
-    e.target.reset();
-    document.getElementById('d-jogos').value = 0;
+    exitEditDisciplinar();
     await loadDisciplinar();
   });
 
   // ---------- CALENDÁRIO ----------
+  let editingCalendarioId = null;
+  let calendarioItems = [];
+
   async function loadCalendario(){
     const keys = await storageList('jogo:');
     const items = [];
@@ -574,7 +788,8 @@
   }
 
   function renderCalendario(items){
-    const table = document.getElementById('table-calendario');
+    calendarioItems = items;
+    const list = document.getElementById('list-calendario');
     let pontos=0, gm=0, gs=0;
     items.forEach(it=>{
       const m = parseInt(it.golosM)||0, s = parseInt(it.golosS)||0;
@@ -586,33 +801,72 @@
     document.getElementById('stat-gs').textContent = gs;
 
     if(items.length===0){
-      table.innerHTML = '<tr><td class="geq-empty">Ainda não há jogos registados.</td></tr>';
+      list.innerHTML = '<p class="geq-empty">Ainda não há jogos registados.</p>';
       return;
     }
-    let html = '<tr><th>Jornada</th><th>Data</th><th>Hora</th><th>Local</th><th>Adversário</th><th>Golos M.</th><th>Golos S.</th><th>Resultado</th><th></th></tr>';
-    for(const it of items){
+    list.innerHTML = items.map(it=>{
       const m = parseInt(it.golosM)||0, s = parseInt(it.golosS)||0;
-      let res = 'Empate', cls = 'badge-e';
-      if(m>s){ res='Vitória'; cls='badge-v'; } else if(m<s){ res='Derrota'; cls='badge-d'; }
-      html += `<tr>
-        <td>${esc(it.jornada)}</td><td>${esc(it.data)}</td><td>${esc(it.hora)}</td><td>${esc(it.local)}</td>
-        <td>${esc(it.adversario)}</td><td>${m}</td><td>${s}</td>
-        <td><span class="geq-badge ${cls}">${res}</span></td>
-        <td><button class="geq-del" data-id="${it.id}">Apagar</button></td>
-      </tr>`;
-    }
-    table.innerHTML = html;
-    table.querySelectorAll('.geq-del').forEach(btn=>{
+      let res = 'Empate', cls = 'badge-e', cardCls = '';
+      if(m>s){ res='Vitória'; cls='badge-v'; } else if(m<s){ res='Derrota'; cls='badge-d'; cardCls='is-danger'; }
+      return `
+      <div class="geq-card ${cardCls}">
+        <div class="geq-card-head">
+          <strong>${esc2(it.adversario)||'Adversário'} · ${m}-${s}</strong>
+          <div class="geq-card-actions">
+            <button class="geq-mini-btn edit" data-id="${it.id}">Editar</button>
+            <button class="geq-mini-btn del" data-id="${it.id}">Apagar</button>
+          </div>
+        </div>
+        <div class="geq-fields">
+          <div class="f"><span class="k">Jornada</span>${esc2(it.jornada)||'—'}</div>
+          <div class="f"><span class="k">Data</span>${esc2(it.data)||'—'}</div>
+          <div class="f"><span class="k">Hora</span>${esc2(it.hora)||'—'}</div>
+          <div class="f"><span class="k">Local</span>${esc2(it.local)||'—'}</div>
+          <div class="f"><span class="k">Resultado</span><span class="geq-badge ${cls}">${res}</span></div>
+        </div>
+      </div>`;
+    }).join('');
+    list.querySelectorAll('.geq-mini-btn.del').forEach(btn=>{
       btn.addEventListener('click', async ()=>{
         await storageDelete('jogo:'+btn.dataset.id);
+        if(editingCalendarioId === btn.dataset.id) exitEditCalendario();
         await loadCalendario();
+      });
+    });
+    list.querySelectorAll('.geq-mini-btn.edit').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const it = calendarioItems.find(x=>x.id===btn.dataset.id);
+        if(!it) return;
+        editingCalendarioId = it.id;
+        document.getElementById('c-jornada').value = it.jornada || '';
+        document.getElementById('c-data').value = it.data || '';
+        document.getElementById('c-hora').value = it.hora || '';
+        document.getElementById('c-local').value = it.local || 'Casa';
+        document.getElementById('c-adversario').value = it.adversario || '';
+        document.getElementById('c-golos-m').value = it.golosM || 0;
+        document.getElementById('c-golos-s').value = it.golosS || 0;
+        document.getElementById('btn-calendario').textContent = 'Guardar alterações';
+        document.getElementById('cancel-calendario').style.display = 'inline-block';
+        document.getElementById('edit-banner-calendario').classList.add('show');
+        document.getElementById('form-calendario').scrollIntoView({behavior:'smooth', block:'start'});
       });
     });
   }
 
+  function exitEditCalendario(){
+    editingCalendarioId = null;
+    document.getElementById('form-calendario').reset();
+    document.getElementById('c-golos-m').value = 0;
+    document.getElementById('c-golos-s').value = 0;
+    document.getElementById('btn-calendario').textContent = 'Adicionar jogo';
+    document.getElementById('cancel-calendario').style.display = 'none';
+    document.getElementById('edit-banner-calendario').classList.remove('show');
+  }
+  document.getElementById('cancel-calendario').addEventListener('click', exitEditCalendario);
+
   document.getElementById('form-calendario').addEventListener('submit', async (e)=>{
     e.preventDefault();
-    const id = crypto.randomUUID();
+    const id = editingCalendarioId || crypto.randomUUID();
     const data = {
       id,
       jornada: document.getElementById('c-jornada').value,
@@ -624,19 +878,60 @@
       golosS: document.getElementById('c-golos-s').value
     };
     await storageSet('jogo:'+id, JSON.stringify(data));
-    e.target.reset();
-    document.getElementById('c-golos-m').value = 0;
-    document.getElementById('c-golos-s').value = 0;
+    exitEditCalendario();
     await loadCalendario();
   });
 
-  // ---------- INIT ----------
-  (async function init(){
+  // ---------- LOGIN (código numérico guardado no Firestore) ----------
+  async function checkCode(entered){
+    try{
+      const doc = await geqDb.collection('config').doc('acesso').get();
+      if(!doc.exists) return false;
+      const correto = String(doc.data().codigo || '');
+      return correto !== '' && correto === String(entered).trim();
+    }catch(e){
+      document.getElementById('geq-login-error').textContent = 'Erro a ligar à base de dados. Confirma a configuração do Firebase.';
+      document.getElementById('geq-login-error').classList.add('show');
+      return false;
+    }
+  }
+
+  async function tryLogin(){
+    const input = document.getElementById('geq-login-code');
+    const errorEl = document.getElementById('geq-login-error');
+    const btn = document.getElementById('geq-login-btn');
+    const code = input.value.trim();
+    if(!code) return;
+    btn.disabled = true;
+    btn.textContent = 'A verificar…';
+    const ok = await checkCode(code);
+    btn.disabled = false;
+    btn.textContent = 'Entrar';
+    if(ok){
+      document.getElementById('geq-login-overlay').style.display = 'none';
+      document.getElementById('geq-app-wrapper').style.display = 'block';
+      init();
+    } else {
+      errorEl.textContent = 'Código incorreto. Tenta novamente.';
+      errorEl.classList.add('show');
+      input.value = '';
+      input.focus();
+    }
+  }
+
+  document.getElementById('geq-login-btn').addEventListener('click', tryLogin);
+  document.getElementById('geq-login-code').addEventListener('keydown', (e)=>{
+    if(e.key === 'Enter') tryLogin();
+  });
+  document.getElementById('geq-login-code').focus();
+
+  // ---------- INIT (só corre depois do login) ----------
+  async function init(){
     await loadPlantel();
     await loadPresencas();
     await loadDisciplinar();
     await loadCalendario();
-  })();
+  }
 })();
 </script>
 </body>
