@@ -491,6 +491,12 @@
   function esc2(s){
     return (s===undefined||s===null) ? '' : String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
   }
+  function fmtDate(d){
+    if(!d) return '—';
+    const p = String(d).split('-');
+    if(p.length !== 3) return d;
+    return p[2]+'/'+p[1]+'/'+p[0];
+  }
 
   // ---------- PLANTEL ----------
   let plantel = [];
@@ -526,7 +532,7 @@
           </div>
         </div>
         <div class="geq-fields">
-          <div class="f"><span class="k">Nasc.</span>${esc2(a.nasc)||'—'}</div>
+          <div class="f"><span class="k">Nasc.</span>${fmtDate(a.nasc)}</div>
           <div class="f"><span class="k">CC</span>${esc2(a.cc)||'—'}</div>
           <div class="f"><span class="k">Posição</span>${esc2(a.posicao)||'—'}</div>
           <div class="f"><span class="k">Contacto</span>${esc2(a.contacto)||'—'}</div>
@@ -659,7 +665,7 @@
     for(const a of plantel) html += `<th>${esc2(a.nome)}</th>`;
     html += '</tr>';
     for(const r of records){
-      html += `<tr><td>${esc2(r.date)}</td>`;
+      html += `<tr><td>${fmtDate(r.date)}</td>`;
       for(const a of plantel){
         const st = r.data[a.id] || '—';
         let badge = st;
@@ -764,7 +770,7 @@
         </div>
         <div class="geq-fields">
           <div class="f"><span class="k">Jornada</span>${esc2(it.jornada)||'—'}</div>
-          <div class="f"><span class="k">Data</span>${esc2(it.data)||'—'}</div>
+          <div class="f"><span class="k">Data</span>${fmtDate(it.data)}</div>
           <div class="f"><span class="k">Cartão</span>${badge}</div>
           <div class="f"><span class="k">Suspensão</span>${esc2(it.jogos)||'0'} jogo(s)</div>
           <div class="f"><span class="k">Cumprida</span>${esc2(it.cumprida)||'—'}</div>
@@ -881,7 +887,7 @@
         </div>
         <div class="geq-fields">
           <div class="f"><span class="k">Jornada</span>${esc2(it.jornada)||'—'}</div>
-          <div class="f"><span class="k">Data</span>${esc2(it.data)||'—'}</div>
+          <div class="f"><span class="k">Data</span>${fmtDate(it.data)}</div>
           <div class="f"><span class="k">Hora</span>${esc2(it.hora)||'—'}</div>
           <div class="f"><span class="k">Local</span>${esc2(it.local)||'—'}</div>
           <div class="f"><span class="k">Resultado</span><span class="geq-badge ${cls}">${res}</span></div>
