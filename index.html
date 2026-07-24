@@ -212,6 +212,7 @@
   .geq-mini-btn.edit:hover{ background:#EAF0FB; }
   .geq-mini-btn.del{ color:var(--blue-deep); }
   .geq-mini-btn.del:hover{ background:var(--gold-bg); }
+  .geq-icon-btn{ font-size:12px; padding:.15rem .3rem; line-height:1; vertical-align:middle; }
   .geq-fields{ display:grid; grid-template-columns:repeat(3,1fr); gap:.5rem .9rem; }
   .geq-fields .f.full{ grid-column:1/-1; }
   .geq-fields .f{ font-size:13px; color:var(--text); }
@@ -255,6 +256,7 @@
   }
   table.geq-table th:first-child, table.geq-table td:first-child{
     position:sticky; left:0; background:#fff; z-index:1; border-right:1px solid var(--line);
+    width:1%; white-space:nowrap;
   }
   table.geq-table th:first-child{ background:var(--bg); z-index:2; }
   table.geq-table td{ padding:.5rem .6rem; border-bottom:1px solid var(--line); white-space:nowrap; }
@@ -671,7 +673,7 @@
     for(const a of plantel) html += `<th>${esc2(a.nome)}</th>`;
     html += '</tr>';
     for(const r of records){
-      html += `<tr><td>${fmtDate(r.date)}</td>`;
+      html += `<tr><td>${fmtDate(r.date)} <button class="geq-mini-btn del geq-icon-btn" data-date="${r.date}" title="Apagar" aria-label="Apagar">🗑️</button></td>`;
       for(const a of plantel){
         const st = r.data[a.id] || '—';
         let badge = st;
@@ -694,6 +696,13 @@
     }
     html += '</tr>';
     table.innerHTML = html;
+    table.querySelectorAll('.geq-mini-btn.del').forEach(btn=>{
+      btn.addEventListener('click', async ()=>{
+        await storageDelete('presenca:'+btn.dataset.date);
+        await loadPresencas();
+        prefillPresencasForDate(document.getElementById('pr-data').value);
+      });
+    });
   }
 
   document.getElementById('form-presencas').addEventListener('submit', async (e)=>{
@@ -885,7 +894,7 @@
       return `
       <div class="geq-card ${cardCls}">
         <div class="geq-card-head">
-          <strong>${esc2(it.adversario)||'Adversário'} · ${m}-${s}</strong>
+          <strong>${it.local ? (it.local==='Casa' ? '🏠 ' : '✈️ ') : ''}${esc2(it.adversario)||'Adversário'} · ${m}-${s}</strong>
           <div class="geq-card-actions">
             <button class="geq-mini-btn edit" data-id="${it.id}">Editar</button>
             <button class="geq-mini-btn del" data-id="${it.id}">Apagar</button>
