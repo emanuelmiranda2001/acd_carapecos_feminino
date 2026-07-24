@@ -237,7 +237,7 @@
   .geq-presenca-row{ display:flex; align-items:center; gap:.8rem; padding:.85rem .95rem; background:linear-gradient(to right, #fff 0%, #fafbfc 100%); border:1px solid var(--line); border-radius:10px; box-shadow:0 1px 3px rgba(0,0,0,0.05); transition:all 0.2s ease; }
   .geq-presenca-row:hover{ border-color:var(--gold); box-shadow:0 2px 6px rgba(240,191,44,0.1); }
   .geq-presenca-row span{ flex:1; font-size:13.5px; font-weight:500; color:var(--text); }
-  .geq-presenca-row select{ width:58px; padding:.4rem .55rem; border:1.5px solid var(--gold); border-radius:7px; font-size:12.5px; background:#fff; color:var(--blue-dark); font-weight:700; cursor:pointer; transition:all 0.2s ease; }
+  .geq-presenca-row select{ max-width:58px; padding:.4rem .55rem; border:1.5px solid var(--gold); border-radius:7px; font-size:12.5px; background:#fff; color:var(--blue-dark); font-weight:700; cursor:pointer; transition:all 0.2s ease; }
   .geq-presenca-row select:hover{ background:var(--gold-bg); }
   .geq-presenca-row select:focus{ outline:none; box-shadow:0 0 0 3px rgba(240,191,44,0.2); }
   .geq-tablewrap{ overflow-x:auto; border:1px solid var(--line); border-radius:9px; }
@@ -578,6 +578,11 @@
 
   document.getElementById('form-plantel').addEventListener('submit', async (e)=>{
     e.preventDefault();
+    const btn = document.getElementById('btn-plantel');
+    btn.disabled = true;
+    const btnText = btn.textContent;
+    btn.textContent = 'A guardar...';
+    
     const id = editingPlantelId || crypto.randomUUID();
     const data = {
       id,
@@ -592,10 +597,12 @@
       camNome: document.getElementById('p-cam-nome').value.trim(),
       obs: document.getElementById('p-obs').value.trim()
     };
-    if(!data.nome) return;
+    if(!data.nome){ btn.disabled = false; btn.textContent = btnText; return; }
     await storageSet('plantel:'+id, JSON.stringify(data));
     exitEditPlantel();
     await loadPlantel();
+    btn.disabled = false;
+    btn.textContent = btnText;
   });
 
   // ---------- PRESENÇAS ----------
@@ -679,8 +686,13 @@
 
   document.getElementById('form-presencas').addEventListener('submit', async (e)=>{
     e.preventDefault();
+    const btn = document.getElementById('btn-presencas');
+    btn.disabled = true;
+    const btnText = btn.textContent;
+    btn.textContent = 'A guardar...';
+    
     const date = document.getElementById('pr-data').value;
-    if(!date) return;
+    if(!date){ btn.disabled = false; btn.textContent = btnText; return; }
     const record = {};
     document.querySelectorAll('#pr-atletas .geq-status').forEach(sel=>{
       record[sel.dataset.atleta] = sel.value;
@@ -688,6 +700,8 @@
     await storageSet('presenca:'+date, JSON.stringify(record));
     await loadPresencas();
     prefillPresencasForDate(date);
+    btn.disabled = false;
+    btn.textContent = btnText;
   });
 
   // ---------- DISCIPLINAR ----------
@@ -797,6 +811,11 @@
 
   document.getElementById('form-disciplinar').addEventListener('submit', async (e)=>{
     e.preventDefault();
+    const btn = document.getElementById('btn-disciplinar');
+    btn.disabled = true;
+    const btnText = btn.textContent;
+    btn.textContent = 'A guardar...';
+    
     const id = editingDisciplinarId || crypto.randomUUID();
     const data = {
       id,
@@ -811,6 +830,8 @@
     await storageSet('disciplinar:'+id, JSON.stringify(data));
     exitEditDisciplinar();
     await loadDisciplinar();
+    btn.disabled = false;
+    btn.textContent = btnText;
   });
 
   // ---------- CALENDÁRIO ----------
@@ -907,6 +928,11 @@
 
   document.getElementById('form-calendario').addEventListener('submit', async (e)=>{
     e.preventDefault();
+    const btn = document.getElementById('btn-calendario');
+    btn.disabled = true;
+    const btnText = btn.textContent;
+    btn.textContent = 'A guardar...';
+    
     const id = editingCalendarioId || crypto.randomUUID();
     const data = {
       id,
@@ -921,6 +947,8 @@
     await storageSet('jogo:'+id, JSON.stringify(data));
     exitEditCalendario();
     await loadCalendario();
+    btn.disabled = false;
+    btn.textContent = btnText;
   });
 
   // ---------- LOGIN (código numérico guardado no Firestore) ----------
