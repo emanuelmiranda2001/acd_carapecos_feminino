@@ -948,7 +948,7 @@
     document.getElementById('cancel-calendario').style.display = 'none';
     document.getElementById('edit-banner-calendario').classList.remove('show');
   }
-  document.getElementById('cancel-calendario').addEventListener('click', exitEditCalendario);
+  document.getElementById('cancel-calendario')?.addEventListener('click', exitEditCalendario);
 
   // Importação do calendário a partir de Excel (colunas lidas pelo nome do cabeçalho)
   const normHeader = v => String(v==null ? '' : v).normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim().toLowerCase();
@@ -998,8 +998,8 @@
     }
     return out;
   }
-  document.getElementById('btn-import-cal').addEventListener('click', ()=> document.getElementById('file-import-cal').click());
-  document.getElementById('file-import-cal').addEventListener('change', async (e)=>{
+  document.getElementById('btn-import-cal')?.addEventListener('click', ()=> document.getElementById('file-import-cal').click());
+  document.getElementById('file-import-cal')?.addEventListener('change', async (e)=>{
     const file = e.target.files[0];
     e.target.value = '';
     if(!file) return;
@@ -1024,7 +1024,7 @@
     btn.disabled = false; btn.textContent = 'Importar calendário (Excel)';
   });
 
-  document.getElementById('form-calendario').addEventListener('submit', async (e)=>{
+  document.getElementById('form-calendario')?.addEventListener('submit', async (e)=>{
     e.preventDefault();
     const btn = document.getElementById('btn-calendario');
     btn.disabled = true;
