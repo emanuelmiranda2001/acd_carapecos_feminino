@@ -11,6 +11,7 @@
 <!-- Firebase (compat SDK, simples de usar sem build tools) -->
 <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script>
   // ======================================================================
   // SUBSTITUI ESTE OBJETO pelo firebaseConfig que copias da consola Firebase
@@ -365,7 +366,6 @@
       <div><label>Contacto emergência</label><input type="text" id="p-emerg" placeholder="919999999 (mãe)"></div>
       <div><label>Equipamento</label><input type="text" id="p-tam" placeholder="M"></div>
       <div><label>Nº da camisola</label><input type="number" id="p-cam-num" min="1" placeholder="7"></div>
-      <div><label>Nome camisola</label><input type="text" id="p-cam-nome" placeholder="Silva"></div>
       <div class="geq-form-full"><label>Observações</label><input type="text" id="p-obs" placeholder="Capitã de equipa"></div>
       <div class="geq-form-actions">
         <button type="submit" class="geq-btn" id="btn-plantel">Adicionar atleta</button>
@@ -440,6 +440,10 @@
         <button type="button" class="geq-btn ghost" id="cancel-calendario" style="display:none;">Cancelar edição</button>
       </div>
     </form>
+    <div class="geq-form-actions" style="margin-bottom:.8rem;">
+      <button type="button" class="geq-btn ghost" id="btn-import-cal">Importar calendário (Excel)</button>
+      <input type="file" id="file-import-cal" accept=".xlsx,.xls,.csv" style="display:none;">
+    </div>
     <div class="geq-stats">
       <div class="geq-stat"><span class="label">Pontos</span><span class="value" id="stat-pontos">0</span></div>
       <div class="geq-stat"><span class="label">Golos marcados</span><span class="value" id="stat-gm">0</span></div>
@@ -546,7 +550,7 @@
           <div class="f"><span class="k">Contacto</span>${esc2(a.contacto)||'—'}</div>
           <div class="f"><span class="k">Emergência</span>${esc2(a.emerg)||'—'}</div>
           <div class="f"><span class="k">Equip.</span>${esc2(a.tam)||'—'}</div>
-          <div class="f"><span class="k">Camisola</span>#${esc2(a.camNum)||'—'} ${esc2(a.camNome)||''}</div>
+          <div class="f"><span class="k">Camisola</span>#${esc2(a.camNum)||'—'}</div>
           <div class="f full"><span class="k">Obs.</span>${esc2(a.obs)||'—'}</div>
         </div>
       </div>
@@ -571,7 +575,6 @@
         document.getElementById('p-emerg').value = a.emerg || '';
         document.getElementById('p-tam').value = a.tam || '';
         document.getElementById('p-cam-num').value = a.camNum || '';
-        document.getElementById('p-cam-nome').value = a.camNome || '';
         document.getElementById('p-obs').value = a.obs || '';
         document.getElementById('btn-plantel').textContent = 'Guardar alterações';
         document.getElementById('cancel-plantel').style.display = 'inline-block';
@@ -608,7 +611,6 @@
       emerg: document.getElementById('p-emerg').value.trim(),
       tam: document.getElementById('p-tam').value.trim(),
       camNum: document.getElementById('p-cam-num').value,
-      camNome: document.getElementById('p-cam-nome').value.trim(),
       obs: document.getElementById('p-obs').value.trim()
     };
     if(!data.nome){ btn.disabled = false; btn.textContent = btnText; return; }
@@ -947,6 +949,80 @@
     document.getElementById('edit-banner-calendario').classList.remove('show');
   }
   document.getElementById('cancel-calendario').addEventListener('click', exitEditCalendario);
+
+  // Importação do calendário a partir de Excel (colunas lidas pelo nome do cabeçalho)
+  const normHeader = v => String(v==null ? '' : v).normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim().toLowerCase();
+  const pad2 = n => String(n).padStart(2,'0');
+  function parseXlsData(v){
+    if(typeof v === 'number'){
+      const d = new Date(Math.round((v - 25569) * 86400000));
+      return d.getUTCFullYear()+'-'+pad2(d.getUTCMonth()+1)+'-'+pad2(d.getUTCDate());
+    }
+    const m = String(v||'').trim().match(/^(\d{1,2})[\/.-](\d{1,2})[\/.-](\d{4})$/);
+    if(m) return m[3]+'-'+pad2(m[2])+'-'+pad2(m[1]);
+    return /^\d{4}-\d{2}-\d{2}$/.test(String(v||'').trim()) ? String(v).trim() : '';
+  }
+  function parseXlsHora(v){
+    if(typeof v === 'number'){
+      const mins = Math.round((v % 1) * 1440);
+      return pad2(Math.floor(mins/60) % 24)+':'+pad2(mins%60);
+    }
+    const m = String(v||'').match(/(\d{1,2})[:h](\d{2})/);
+    return m ? pad2(m[1])+':'+m[2] : '';
+  }
+  function parseCalendarioSheet(rows){
+    const hi = rows.findIndex(r=> r.some(c=>normHeader(c)==='jornada') && r.some(c=>normHeader(c)==='adversario'));
+    if(hi<0) return null;
+    const col = {};
+    rows[hi].forEach((c,i)=>{ const h = normHeader(c); if(h && !(h in col)) col[h]=i; });
+    const find = (...names)=>{ for(const n of names){ const k = Object.keys(col).find(h=>h.startsWith(n)); if(k) return col[k]; } return -1; };
+    const cJ = find('jornada'), cD = find('data'), cL = find('casa'), cA = find('adversario'), cH = find('hora'),
+          cM = find('golos marcados'), cS = find('golos sofridos');
+    const out = [];
+    for(const r of rows.slice(hi+1)){
+      const jornada = parseInt(r[cJ]);
+      const adversario = String(r[cA]||'').trim();
+      if(!jornada || !adversario) continue;
+      const loc = normHeader(r[cL]);
+      const gm = cM>=0 ? r[cM] : '', gs = cS>=0 ? r[cS] : '';
+      const jogado = gm!=='' && gm!=null && gs!=='' && gs!=null;
+      out.push({
+        jornada: String(jornada),
+        data: parseXlsData(r[cD]),
+        hora: parseXlsHora(r[cH]),
+        local: loc.includes('fora') ? 'Fora' : 'Casa',
+        adversario,
+        golosM: jogado ? String(gm) : '',
+        golosS: jogado ? String(gs) : ''
+      });
+    }
+    return out;
+  }
+  document.getElementById('btn-import-cal').addEventListener('click', ()=> document.getElementById('file-import-cal').click());
+  document.getElementById('file-import-cal').addEventListener('change', async (e)=>{
+    const file = e.target.files[0];
+    e.target.value = '';
+    if(!file) return;
+    let jogos;
+    try{
+      const wb = XLSX.read(await file.arrayBuffer(), {type:'array'});
+      jogos = parseCalendarioSheet(XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]], {header:1, raw:true, defval:''}));
+    }catch(err){ showError('Não consegui ler o ficheiro.'); return; }
+    if(!jogos || !jogos.length){ showError('Não encontrei jogos. Confirma que há uma linha de cabeçalho com "Jornada" e "Adversário".'); return; }
+    const existentes = new Set(calendarioItems.map(it=>String(it.jornada)));
+    const novos = jogos.filter(j=>!existentes.has(j.jornada));
+    if(!novos.length){ showError('Todas as jornadas deste ficheiro já existem no calendário.'); return; }
+    const jogados = novos.filter(j=>j.golosM!=='').length;
+    if(!confirm('Importar '+novos.length+' jogo(s) ('+jogados+' com resultado)'+(jogos.length>novos.length ? ' — '+(jogos.length-novos.length)+' jornada(s) já existente(s) vão ser ignoradas' : '')+'?')) return;
+    const btn = document.getElementById('btn-import-cal');
+    btn.disabled = true; btn.textContent = 'A importar...';
+    for(const j of novos){
+      const id = crypto.randomUUID();
+      await storageSet('jogo:'+id, JSON.stringify({id, ...j}));
+    }
+    await loadCalendario();
+    btn.disabled = false; btn.textContent = 'Importar calendário (Excel)';
+  });
 
   document.getElementById('form-calendario').addEventListener('submit', async (e)=>{
     e.preventDefault();
