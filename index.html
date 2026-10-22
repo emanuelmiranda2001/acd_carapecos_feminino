@@ -433,8 +433,8 @@
       <div><label>Hora</label><input type="time" id="c-hora"></div>
       <div><label>Casa / fora</label><select id="c-local"><option>Casa</option><option>Fora</option></select></div>
       <div class="geq-form-full"><label>Adversário</label><input type="text" id="c-adversario" placeholder="Nome do clube adversário"></div>
-      <div><label>Golos marcados</label><input type="number" id="c-golos-m" min="0" value="0"></div>
-      <div><label>Golos sofridos</label><input type="number" id="c-golos-s" min="0" value="0"></div>
+      <div><label>Golos marcados</label><input type="number" id="c-golos-m" min="0" placeholder="Por jogar"></div>
+      <div><label>Golos sofridos</label><input type="number" id="c-golos-s" min="0" placeholder="Por jogar"></div>
       <div class="geq-form-actions">
         <button type="submit" class="geq-btn" id="btn-calendario">Adicionar jogo</button>
         <button type="button" class="geq-btn ghost" id="cancel-calendario" style="display:none;">Cancelar edição</button>
@@ -874,7 +874,9 @@
     calendarioItems = items;
     const list = document.getElementById('list-calendario');
     let pontos=0, gm=0, gs=0;
+    const jogado = it => it.golosM!==undefined && it.golosM!=='' && it.golosS!==undefined && it.golosS!=='';
     items.forEach(it=>{
+      if(!jogado(it)) return;
       const m = parseInt(it.golosM)||0, s = parseInt(it.golosS)||0;
       gm += m; gs += s;
       pontos += (m>s) ? 3 : (m===s ? 1 : 0);
@@ -890,11 +892,12 @@
     list.innerHTML = items.map(it=>{
       const m = parseInt(it.golosM)||0, s = parseInt(it.golosS)||0;
       let res = 'Empate', cls = 'badge-e', cardCls = '';
-      if(m>s){ res='Vitória'; cls='badge-v'; } else if(m<s){ res='Derrota'; cls='badge-d'; cardCls='is-danger'; }
+      if(!jogado(it)){ res='Por jogar'; cls=''; }
+      else if(m>s){ res='Vitória'; cls='badge-v'; } else if(m<s){ res='Derrota'; cls='badge-d'; cardCls='is-danger'; }
       return `
       <div class="geq-card ${cardCls}">
         <div class="geq-card-head">
-          <strong>${it.local ? (it.local==='Casa' ? '🏠 ' : '✈️ ') : ''}${esc2(it.adversario)||'Adversário'} · ${m}-${s}</strong>
+          <strong>${it.local ? (it.local==='Casa' ? '🏠 ' : '✈️ ') : ''}${esc2(it.adversario)||'Adversário'}${jogado(it) ? ` · ${m}-${s}` : ''}</strong>
           <div class="geq-card-actions">
             <button class="geq-mini-btn edit" data-id="${it.id}">Editar</button>
             <button class="geq-mini-btn del" data-id="${it.id}">Apagar</button>
@@ -926,8 +929,8 @@
         document.getElementById('c-hora').value = it.hora || '';
         document.getElementById('c-local').value = it.local || 'Casa';
         document.getElementById('c-adversario').value = it.adversario || '';
-        document.getElementById('c-golos-m').value = it.golosM || 0;
-        document.getElementById('c-golos-s').value = it.golosS || 0;
+        document.getElementById('c-golos-m').value = it.golosM ?? '';
+        document.getElementById('c-golos-s').value = it.golosS ?? '';
         document.getElementById('btn-calendario').textContent = 'Guardar alterações';
         document.getElementById('cancel-calendario').style.display = 'inline-block';
         document.getElementById('edit-banner-calendario').classList.add('show');
@@ -939,8 +942,6 @@
   function exitEditCalendario(){
     editingCalendarioId = null;
     document.getElementById('form-calendario').reset();
-    document.getElementById('c-golos-m').value = 0;
-    document.getElementById('c-golos-s').value = 0;
     document.getElementById('btn-calendario').textContent = 'Adicionar jogo';
     document.getElementById('cancel-calendario').style.display = 'none';
     document.getElementById('edit-banner-calendario').classList.remove('show');
