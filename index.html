@@ -218,6 +218,9 @@
   .geq-fields .f.full{ grid-column:1/-1; }
   .geq-fields .f{ font-size:13px; color:var(--text); }
   .geq-fields .f .k{ color:var(--gold-dark); display:block; font-size:9.5px; text-transform:uppercase; letter-spacing:.05em; font-weight:700; margin-bottom:.2rem; }
+  .geq-loading{ display:flex; align-items:center; justify-content:center; gap:.6rem; color:var(--text-2); font-size:13.5px; padding:2rem 1rem; }
+  .geq-spinner{ width:18px; height:18px; border:2.5px solid var(--line); border-top-color:var(--gold-dark); border-radius:50%; animation:geq-spin .8s linear infinite; }
+  @keyframes geq-spin{ to{ transform:rotate(360deg); } }
   .geq-empty{ color:var(--text-2); font-size:13.5px; padding:2rem 1rem; text-align:center; background:linear-gradient(135deg, rgba(250,247,240,0.5) 0%, rgba(255,255,255,0.5) 100%); border:1.5px dashed var(--line); border-radius:10px; margin:1rem 0; }
   .geq-stats{ display:flex; gap:.8rem; margin:0 0 1.5rem; flex-wrap:wrap; }
   .geq-stat{ background:linear-gradient(135deg, var(--bg) 0%, #fafbfc 100%); border:2px solid var(--line); border-radius:12px; padding:1rem; flex:1; min-width:120px; box-shadow:0 2px 8px rgba(0,0,0,0.08); transition:all 0.3s ease; display:flex; flex-direction:column; align-items:center; text-align:center; }
@@ -449,7 +452,7 @@
       <div class="geq-stat"><span class="label">Golos marcados</span><span class="value" id="stat-gm">0</span></div>
       <div class="geq-stat"><span class="label">Golos sofridos</span><span class="value" id="stat-gs">0</span></div>
     </div>
-    <div class="geq-list" id="list-calendario"></div>
+    <div class="geq-list" id="list-calendario"><div class="geq-loading"><span class="geq-spinner"></span>A carregar jornadas…</div></div>
   </section>
 </div>
 </div>
@@ -862,6 +865,7 @@
   let calendarioItems = [];
 
   async function loadCalendario(){
+    document.getElementById('list-calendario').innerHTML = '<div class="geq-loading"><span class="geq-spinner"></span>A carregar jornadas…</div>';
     const keys = await storageList('jogo:');
     const items = [];
     for(const k of keys){
